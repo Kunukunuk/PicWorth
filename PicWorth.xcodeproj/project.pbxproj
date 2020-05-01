@@ -15,6 +15,7 @@
 		0D01DC63245883BD00A4DF48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0D01DC61245883BD00A4DF48 /* LaunchScreen.storyboard */; };
 		0D01DC6E245883BD00A4DF48 /* PicWorthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D01DC6D245883BD00A4DF48 /* PicWorthTests.swift */; };
 		0D01DC79245883BD00A4DF48 /* PicWorthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D01DC78245883BD00A4DF48 /* PicWorthUITests.swift */; };
+		0D169F6D245CDC1400CB78FA /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D169F6C245CDC1400CB78FA /* APIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		0D01DC74245883BD00A4DF48 /* PicWorthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PicWorthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D01DC78245883BD00A4DF48 /* PicWorthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicWorthUITests.swift; sourceTree = "<group>"; };
 		0D01DC7A245883BD00A4DF48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D169F6C245CDC1400CB78FA /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				0D01DC56245883BC00A4DF48 /* AppDelegate.swift */,
 				0D01DC58245883BC00A4DF48 /* SceneDelegate.swift */,
 				0D01DC5A245883BC00A4DF48 /* ContentView.swift */,
+				0D169F6C245CDC1400CB78FA /* APIManager.swift */,
 				0D01DC5C245883BD00A4DF48 /* Assets.xcassets */,
 				0D01DC61245883BD00A4DF48 /* LaunchScreen.storyboard */,
 				0D01DC64245883BD00A4DF48 /* Info.plist */,
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D169F6D245CDC1400CB78FA /* APIManager.swift in Sources */,
 				0D01DC57245883BC00A4DF48 /* AppDelegate.swift in Sources */,
 				0D01DC59245883BC00A4DF48 /* SceneDelegate.swift in Sources */,
 				0D01DC5B245883BC00A4DF48 /* ContentView.swift in Sources */,
