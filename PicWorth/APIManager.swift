@@ -18,7 +18,7 @@ struct APIManager {
         case networkError(error: Error)
     }
     
-    func getDefinition(term: String, completion: @escaping (Result<Int, APIError>) -> ()) {
+    func getDefinition(term: String, completion: @escaping (Result<DefinitionData, APIError>) -> ()) {
         
     }
 }
