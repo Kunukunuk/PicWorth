@@ -32,14 +32,7 @@ struct APIManager {
             }
             do {
                 let decoder = JSONDecoder()
-                print("*****json")
-                print(dataJson)
-                //decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                let eachData = try! JSONSerialization.jsonObject(with: dataJson, options: [])
-//                print("*****each")
-//                print(eachData)
                 let definition = try decoder.decode(Array<DefinitionData>.self, from: dataJson)
-                print("sadsd")
                 completion(.success(definition))
             } catch {
                 completion(.failure(.badData(reason: "bad data")))
