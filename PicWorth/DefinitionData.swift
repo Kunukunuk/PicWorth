@@ -8,7 +8,14 @@
 
 import Foundation
 
+struct ListOfWord: Codable {
+    let listOW: [DefinitionData]
+}
+
 struct DefinitionData: Codable {
+    
     var word: String
-    var listOfDef: [String]
+    var score: Int
+    var defs: [String]?
+    
 }

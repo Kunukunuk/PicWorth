@@ -10,7 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var searchWord: String = "One"
+    @State private var searchWord: String = "Apple"
+    @State private var definitionText: Text = Text("Hello")
+    @State private var definitionList: [String] = []
     
     var body: some View {
         VStack {
@@ -24,23 +26,27 @@ struct ContentView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Search", action: {
                     print(self.searchWord)
+                    self.getDefinition(term: self.searchWord)
                 })
             }
             .frame(maxWidth: .infinity)
-            Text("\(searchWord) Definition: \n\(getDefinition(term: searchWord))")
+            definitionText
             
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
     }
     
-    func getDefinition(term: String) -> String {
-        print(term)
-        if UIReferenceLibraryViewController.dictionaryHasDefinition(forTerm: term) {
-            print("have dic")
-            let ref = UIReferenceLibraryViewController(term: term)
-            return ref.description
+    func getDefinition(term: String) {
+        
+        definitionList = []
+        APIManager.apiManager.getDefinition(term: term) { result in
+            switch result {
+                case .success(let definitions):
+                    print(definitions)
+                case .failure(let error):
+                    print(error)
+            }
         }
-        return "No Definition"
     }
     
 }
