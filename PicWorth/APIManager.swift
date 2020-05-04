@@ -16,7 +16,7 @@ struct APIManager {
     enum APIError: Error {
         case invalidURL(reason: String)
         case someError(error: Error)
-        case badData(reason: String)
+        case JSONError(reason: String)
     }
     
     func getDefinition(term: String, completion: @escaping (Result<[DefinitionData], APIError>) -> ()) {
@@ -35,7 +35,7 @@ struct APIManager {
                 let definition = try decoder.decode(Array<DefinitionData>.self, from: dataJson)
                 completion(.success(definition))
             } catch {
-                completion(.failure(.badData(reason: "bad data")))
+                completion(.failure(.JSONError(reason: "JSON can't decode")))
             }
         }
         task.resume()
