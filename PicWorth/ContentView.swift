@@ -11,21 +11,17 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var searchWord: String = "Apple"
-    @State private var definitionText: Text = Text("Hello")
+    @State private var definitionText: Text = Text("Definitions")
     @State private var definitionList: [String] = []
     
     var body: some View {
         VStack {
             Text("Enter a word to search")
             HStack (spacing: 20) {
-                TextField("Enter a word", text: .constant(searchWord))
-                    .onTapGesture {
-                        self.searchWord = ""
-                    }
+                TextField("Enter a word", text: $searchWord)
                     .frame(maxWidth: .infinity)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Search", action: {
-                    print(self.searchWord)
                     self.getDefinition(term: self.searchWord)
                 })
             }
@@ -34,16 +30,39 @@ struct ContentView: View {
             
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
+        .onAppear {
+            print(self.searchWord)
+            self.getDefinition(term: self.searchWord)
+        }
     }
     
     func getDefinition(term: String) {
         
+        if term.isEmpty {
+            self.definitionText = Text("Enter something to search")
+            return
+        }
         definitionList = []
         APIManager.apiManager.getDefinition(term: term) { result in
             switch result {
                 case .success(let definitions):
-                    print(definitions)
+                    if definitions.isEmpty {
+                        self.definitionText = Text("No Definition available")
+                        break
+                    }
+                    for each in definitions {
+                        if self.searchWord.lowercased() == each.word {
+                            if let listOfDefinitions = each.defs {
+                                let getDefs = listOfDefinitions.joined(separator: "\n")
+                                let displayDef = getDefs.replacingOccurrences(of: "n\t", with: "\u{2022}")
+                                self.definitionText = Text(displayDef)
+                                break;
+                            }
+                        }
+                        self.definitionText = Text("No Definition available")
+                    }
                 case .failure(let error):
+                    self.definitionText = Text("Failed to retrieve info from API")
                     print(error)
             }
         }
