@@ -33,7 +33,26 @@ struct ImageView: View {
     }
     var body: some View {
         VStack {
-            Image(uiImage: imageLoader.data != nil ? UIImage(data: imageLoader.data!)! : UIImage())
+            if imageLoader.data != nil {
+                Image(uiImage: UIImage(data: imageLoader.data!)!)
+                    .overlay(ImageOverlay(), alignment: .bottomTrailing)
+            } else {
+                Image(uiImage: UIImage())
+            }
         }
+    }
+}
+
+struct ImageOverlay: View {
+    var body: some View {
+        ZStack {
+            Text("Credit to Pixabay")
+                .foregroundColor(Color.white)
+                .padding(6)
+        }
+        .background(Color.black)
+        .opacity(0.75)
+        .cornerRadius(10)
+        .padding(6)
     }
 }

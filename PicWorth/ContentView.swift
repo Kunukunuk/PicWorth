@@ -33,10 +33,7 @@ struct ContentView: View {
                 Text("Definitions")
                 definitionText
             }
-            Group {
-                Text("Pictures provided by pixabay.com")
-                ImageView(url: url)
-            }
+            ImageView(url: url)
             
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
