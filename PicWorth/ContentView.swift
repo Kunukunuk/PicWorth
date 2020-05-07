@@ -27,9 +27,14 @@ struct ContentView: View {
                 })
             }
             .frame(maxWidth: .infinity)
-            definitionText
-            ImageView(url: url)
-                .aspectRatio(contentMode: .fill)
+            Group {
+                Text("Definitions")
+                definitionText
+            }
+            Group {
+                Text("Pictures provided by pixabay.com")
+                ImageView(url: url)
+            }
             
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
