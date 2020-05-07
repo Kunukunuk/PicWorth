@@ -19,7 +19,9 @@ struct ContentView: View {
         VStack {
             Text("Enter a word to search")
             HStack (spacing: 20) {
-                TextField("Enter a word", text: $searchWord)
+                TextField("Enter a word", text: $searchWord, onCommit: {
+                    self.getDefinition(term: self.searchWord)
+                })
                     .frame(maxWidth: .infinity)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("Search", action: {
