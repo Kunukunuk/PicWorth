@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var searchWord: String = "Apple"
     @State private var definitionText: Text = Text("Definitions")
     @State private var definitionList: [String] = []
-    @ObservedObject var imageLoader: ImageLoader = ImageLoader()
+    private let url = URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!
     
     var body: some View {
         VStack {
@@ -28,13 +28,14 @@ struct ContentView: View {
             }
             .frame(maxWidth: .infinity)
             definitionText
+            ImageView(url: url)
+                .aspectRatio(contentMode: .fill)
             
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
         .onAppear {
             print(self.searchWord)
             self.getDefinition(term: self.searchWord)
-            self.imageLoader.loadImage(url: "https://pixabay.com/static/img/public/medium_rectangle_b.png")
         }
     }
     

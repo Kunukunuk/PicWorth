@@ -11,34 +11,29 @@ import SwiftUI
 
 class ImageLoader: ObservableObject {
     
-    @Published var image: UIImage = UIImage()
+    @Published var data: Data?
     
-    func loadImage(url: String) {
-        let getURL = URL(string: url)!
-        URLSession.shared.dataTask(with: getURL) { (data, response, error) in
-            guard error == nil else {
-                return
+    init(url: URL) {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data else { return }
+            DispatchQueue.main.async {
+                self.data = data
             }
-            guard let data = data, let image = UIImage(data: data) else {
-                return
-            }
-            self.image = image
-        }.resume()
+        }
+        task.resume()
     }
 }
 
-//struct ViewImage: View {
-//
-//    @State var viewImage: Image
-//    @ObservedObject var imageLoader: ImageLoader
-//
-//    init() {
-//        self.viewImage = Image("")
-//        self.imageLoader = ImageLoader()
-//    }
-//
-//    var body: some View {
-//        self.viewImage = Image(uiImage: imageLoader.image)
-//        return self.viewImage
-//    }
-//}
+struct ImageView: View {
+    
+    @ObservedObject private var imageLoader: ImageLoader
+    
+    init(url: URL) {
+        imageLoader = ImageLoader(url: url)
+    }
+    var body: some View {
+        VStack {
+            Image(uiImage: imageLoader.data != nil ? UIImage(data: imageLoader.data!)! : UIImage())
+        }
+    }
+}
