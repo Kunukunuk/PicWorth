@@ -8,10 +8,6 @@
 
 import Foundation
 
-struct ListOfWord: Codable {
-    let listOW: [DefinitionData]
-}
-
 struct DefinitionData: Codable {
     
     var word: String

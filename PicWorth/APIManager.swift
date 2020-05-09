@@ -11,7 +11,8 @@ import Foundation
 struct APIManager {
     
     public static let apiManager = APIManager()
-    let baseURL = "https://api.datamuse.com/words?"
+    let dictionaryBaseURL = "https://api.datamuse.com/words?"
+    let pixabayBaseURL = "https://pixabay.com/api/?key="
     
     enum APIError: Error {
         case invalidURL(reason: String)
@@ -20,7 +21,7 @@ struct APIManager {
     }
     
     func getDefinition(term: String, completion: @escaping (Result<[DefinitionData], APIError>) -> ()) {
-        let apiURL = URL(string: baseURL + "sp=\(term)&md=d")
+        let apiURL = URL(string: dictionaryBaseURL + "sp=\(term)&md=d")
         let task = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
             guard let dataJson = data else {
                 completion(.failure(.invalidURL(reason: "invalid URL")))
