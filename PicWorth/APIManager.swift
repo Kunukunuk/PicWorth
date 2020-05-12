@@ -12,7 +12,7 @@ struct APIManager {
     
     public static let apiManager = APIManager()
     let dictionaryBaseURL = "https://api.datamuse.com/words?"
-    let pixabayBaseURL = "https://pixabay.com/api/?key="
+    let pixabayBaseURL = "https://pixabay.com/api/?"
     
     enum APIError: Error {
         case invalidURL(reason: String)
@@ -43,7 +43,7 @@ struct APIManager {
     }
     
     func getImageHits(term: String, completion: @escaping (Result<[ImageData], APIError>) -> () ) {
-        let apiURL = URL(string: pixabayBaseURL + "&q=\(term)&page=1")
+        let apiURL = URL(string: pixabayBaseURL + "q=\(term)&page=1")
         let task = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
             guard let dataJson = data else {
                 completion(.failure(.invalidURL(reason: "invalid URL")))

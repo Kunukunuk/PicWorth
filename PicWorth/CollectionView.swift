@@ -19,17 +19,19 @@ struct CollectionView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UICollectionView {
         let collectionView: UICollectionView = {
+            
             let layout = UICollectionViewFlowLayout()
             layout.sectionHeadersPinToVisibleBounds = true
             let makeCV = UICollectionView(frame: .zero, collectionViewLayout: layout)
             layout.scrollDirection = .vertical
             makeCV.translatesAutoresizingMaskIntoConstraints = false
             makeCV.backgroundColor = .clear
-            makeCV.layer.borderColor = UIColor.green.cgColor
-            makeCV.layer.borderWidth = 3.0
+            makeCV.layer.borderColor = UIColor.gray.cgColor
+            makeCV.layer.borderWidth = 0.5
             makeCV.dataSource = context.coordinator
             makeCV.delegate = context.coordinator
             makeCV.register(CollectionViewCell.self, forCellWithReuseIdentifier: "ttc")
+            
             return makeCV
         }()
 
@@ -52,11 +54,35 @@ struct CollectionView: UIViewRepresentable {
             return parent.imageData?.count ?? 0
         }
         
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            
+            let numberItemPerCell: CGFloat = 2
+
+            if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
+                
+                flowLayout.minimumInteritemSpacing = 5
+                flowLayout.minimumLineSpacing = 5
+                
+                let totalSpace = flowLayout.sectionInset.left
+                    + flowLayout.sectionInset.right
+                    + (flowLayout.minimumInteritemSpacing * numberItemPerCell - 1)
+
+                let size = Int((collectionView.bounds.width - totalSpace) / numberItemPerCell)
+                
+                return CGSize(width: size, height: size )
+            }
+            return CGSize(width: 100, height: 100)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 5, left: 2.5, bottom: 5, right: 2.5)
+        }
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ttc", for: indexPath) as! CollectionViewCell
             if parent.imageData?.isEmpty ?? true {
                 cell.customView?.rootView = ImageView(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
             } else {
+                
                 let t = parent.imageData?[indexPath.item]
                 let tURL = URL(string: t!.largeImageURL)!
                 cell.customView?.rootView = ImageView(url: tURL)
@@ -74,7 +100,7 @@ class CollectionViewCell: UICollectionViewCell {
     public var image: ImageView = ImageView(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
     public var customView: UIHostingController<ImageView>?
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         customView = UIHostingController(rootView: image)
         customView!.view.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(customView!.view)
