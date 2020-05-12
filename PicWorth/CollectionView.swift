@@ -12,7 +12,6 @@ import UIKit
 struct CollectionView: UIViewRepresentable {
     
     @Binding var imageData: [ImageData]?
-//    @ObservedObject var imageLoaders: ImageLoader = ImageLoader(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -60,7 +59,6 @@ struct CollectionView: UIViewRepresentable {
             } else {
                 let t = parent.imageData?[indexPath.item]
                 let tURL = URL(string: t!.largeImageURL)!
-                //cell.imageData = t
                 cell.customView?.rootView = ImageView(url: tURL)
             }
             return cell
@@ -72,15 +70,6 @@ struct CollectionView: UIViewRepresentable {
 class CollectionViewCell: UICollectionViewCell {
     
     static let reuseId: String = "ttc"
-//    var imageData: ImageData? {
-//        didSet {
-//            if let haveData = imageData {
-//                let url = URL(string: haveData.largeImageURL)
-//                image = ImageView(url: url!)
-//            }
-//        }
-//    }
-    
     
     public var image: ImageView = ImageView(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
     public var customView: UIHostingController<ImageView>?
