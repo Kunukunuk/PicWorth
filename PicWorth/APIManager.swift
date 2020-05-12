@@ -12,7 +12,7 @@ struct APIManager {
     
     public static let apiManager = APIManager()
     let dictionaryBaseURL = "https://api.datamuse.com/words?"
-    let pixabayBaseURL = "https://pixabay.com/api/?"
+    let pixabayBaseURL = "https://pixabay.com/api/?key="
     
     enum APIError: Error {
         case invalidURL(reason: String)
