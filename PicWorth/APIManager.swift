@@ -20,7 +20,7 @@ struct APIManager {
         case JSONError(reason: String)
     }
     
-    func getDefinition(term: String, completion: @escaping (Result<[DefinitionData], APIError>) -> ()) {
+    func getDefinition(term: String, completion: @escaping (Result<[DefinitionData], APIError>) -> () ) {
         let apiURL = URL(string: dictionaryBaseURL + "sp=\(term)&md=d")
         let task = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
             guard let dataJson = data else {
@@ -39,6 +39,36 @@ struct APIManager {
                 completion(.failure(.JSONError(reason: "JSON can't decode")))
             }
         }
+        task.resume()
+    }
+    
+    func getImageHits(term: String, completion: @escaping (Result<[ImageData], APIError>) -> () ) {
+        let apiURL = URL(string: pixabayBaseURL + "&q=\(term)&page=1")
+        let task = URLSession.shared.dataTask(with: apiURL!) { (data, response, error) in
+            guard let dataJson = data else {
+                completion(.failure(.invalidURL(reason: "invalid URL")))
+                return
+            }
+            guard error == nil else {
+                completion(.failure(.someError(error: error!)))
+                return
+            }
+            
+            guard let res = (response as? HTTPURLResponse)?.statusCode, 200 == res else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                //let dataDict = try! JSONSerialization.jsonObject(with: dataJson, options: []) as! [String: Any]
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let imagehits = try decoder.decode(ImageHits.self, from: dataJson)
+                completion(.success(imagehits.hits))
+            } catch {
+                completion(.failure(.JSONError(reason: "Can't parse JSON correctly")))
+            }
+        }
+        
         task.resume()
     }
 }

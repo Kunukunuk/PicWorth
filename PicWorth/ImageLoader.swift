@@ -35,6 +35,8 @@ struct ImageView: View {
         VStack {
             if imageLoader.data != nil {
                 Image(uiImage: UIImage(data: imageLoader.data!)!)
+                    .resizable()
+                    .frame(width: 200, height: 150)
                     .overlay(ImageOverlay(), alignment: .bottomTrailing)
             } else {
                 Image(uiImage: UIImage())

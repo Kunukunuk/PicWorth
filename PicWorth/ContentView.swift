@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var definitionText: Text = Text("Definitions")
     @State private var definitionList: [String] = []
     private let url = URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!
+    @State private var imageHits: [ImageData]?
     
     var body: some View {
         VStack {
@@ -34,11 +35,10 @@ struct ContentView: View {
                 definitionText
             }
             ImageView(url: url)
-            
+            CollectionView(imageData: $imageHits)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)
         .onAppear {
-            print(self.searchWord)
             self.getDefinition(term: self.searchWord)
         }
     }
@@ -63,6 +63,7 @@ struct ContentView: View {
                                 let getDefs = listOfDefinitions.joined(separator: "\n")
                                 let displayDef = getDefs.replacingOccurrences(of: "n\t", with: "\u{2022}")
                                 self.definitionText = Text(displayDef)
+                                self.getNumberOfImages(term: term)
                                 break;
                             }
                         }
@@ -70,6 +71,22 @@ struct ContentView: View {
                     }
                 case .failure(let error):
                     self.definitionText = Text("Failed to retrieve info from API")
+                    print(error)
+            }
+        }
+    }
+    
+    func getNumberOfImages(term: String) {
+        
+        imageHits = []
+        APIManager.apiManager.getImageHits(term: term) { result in
+            switch result {
+                case .success(let images):
+                    if images.isEmpty {
+                        break
+                    }
+                    self.imageHits = images
+                case .failure(let error):
                     print(error)
             }
         }

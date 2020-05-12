@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct ImageData: Codable {
+struct ImageData: Codable, Hashable {
     
     var id: Int
-    var webformaturl: String
-    var largeimageurl: String
-    var userid: Int
+    var webformatURL: String
+    var largeImageURL: String
+    var userId: Int
     var user: String
-    var userimageurl: String
+    var userImageURL: String
     
 }
 
