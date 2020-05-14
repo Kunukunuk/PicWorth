@@ -34,7 +34,7 @@ struct ContentView: View {
                 Text("Definitions")
                 definitionText
             }
-            ImageView(url: url)
+            ImageView()
             CollectionView(imageData: $imageHits)
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .top)

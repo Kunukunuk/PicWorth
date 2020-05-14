@@ -27,8 +27,17 @@ class ImageLoader: ObservableObject {
 struct ImageView: View {
     
     @ObservedObject private var imageLoader: ImageLoader
+    private var imageData: ImageData
     
-    init(url: URL) {
+    init() {
+        self.imageData = ImageData(id: 123, webformatURL: "", largeImageURL: "https://pixabay.com/static/img/public/medium_rectangle_b.png", userId: 123, user: "PixaBay", userImageURL: "")
+        let url = URL(string: imageData.largeImageURL)!
+        self.imageLoader = ImageLoader(url: url)
+    }
+    
+    init(imageData: ImageData) {
+        self.imageData = imageData
+        let url = URL(string: imageData.largeImageURL)!
         imageLoader = ImageLoader(url: url)
     }
     var body: some View {
@@ -37,7 +46,7 @@ struct ImageView: View {
                 Image(uiImage: UIImage(data: imageLoader.data!)!)
                     .resizable()
                     .frame(width: 200, height: 150)
-                    .overlay(ImageOverlay(), alignment: .bottomTrailing)
+                    .overlay(ImageOverlay(imageInfo: self.imageData), alignment: .bottomTrailing)
             } else {
                 Image(uiImage: UIImage())
             }
@@ -46,9 +55,12 @@ struct ImageView: View {
 }
 
 struct ImageOverlay: View {
+    
+    var imageInfo: ImageData
+    
     var body: some View {
         ZStack {
-            Text("Credit to Pixabay")
+            Text("Photo by \(imageInfo.user)")
                 .foregroundColor(Color.white)
                 .padding(6)
         }

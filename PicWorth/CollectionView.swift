@@ -80,12 +80,11 @@ struct CollectionView: UIViewRepresentable {
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ttc", for: indexPath) as! CollectionViewCell
             if parent.imageData?.isEmpty ?? true {
-                cell.customView?.rootView = ImageView(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
+                cell.customView?.rootView = ImageView()
             } else {
                 
-                let t = parent.imageData?[indexPath.item]
-                let tURL = URL(string: t!.largeImageURL)!
-                cell.customView?.rootView = ImageView(url: tURL)
+                let imageAtCell = parent.imageData?[indexPath.item]
+                cell.customView?.rootView = ImageView(imageData: imageAtCell!)
             }
             return cell
         }
@@ -97,7 +96,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     static let reuseId: String = "ttc"
     
-    public var image: ImageView = ImageView(url: URL(string: "https://pixabay.com/static/img/public/medium_rectangle_b.png")!)
+    public var image: ImageView = ImageView()
     public var customView: UIHostingController<ImageView>?
     override init(frame: CGRect) {
         super.init(frame: frame)
